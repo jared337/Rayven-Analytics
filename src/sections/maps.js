@@ -78,8 +78,8 @@
       desc: "Switch between light, street, dark, terrain and satellite basemaps, and toggle overlay layers on and off.",
       render(b) {
         const m = AX.map(b, { base: null, center: [-34.5, 147], zoom: 5, height: 280 });
-        const bases = { Light: AX.tiles("light"), Street: AX.tiles("street"), Dark: AX.tiles("dark"), Terrain: AX.tiles("topo"), Satellite: AX.tiles("satellite") };
-        bases.Light.addTo(m);
+        const bases = { Colour: AX.tiles("color"), Light: AX.tiles("light"), Street: AX.tiles("street"), Dark: AX.tiles("dark"), Terrain: AX.tiles("topo"), Satellite: AX.tiles("satellite") };
+        bases.Colour.addTo(m);
         const sites = L.layerGroup(D.sites.map(s => L.marker([s.lat, s.lng]).bindTooltip(s.name))).addTo(m);
         const offline = L.layerGroup(D.devices.filter(d => d.status === "Offline").map(d => L.circleMarker([d.lat, d.lng], { radius: 7, color: "#ef4444" }).bindTooltip(d.id)));
         L.control.layers(bases, { Sites: sites, "Offline devices": offline }, { collapsed: false }).addTo(m);

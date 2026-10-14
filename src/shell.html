@@ -54,6 +54,7 @@
   }
 
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   html, body { margin: 0; height: 100%; }
 
   body {
@@ -318,6 +319,9 @@
   .leaflet-popup-tip-container { display: none; }
   .leaflet-tooltip { border: 0; border-radius: 8px; box-shadow: 0 4px 16px rgba(24, 24, 27, .14), 0 0 0 1px rgba(24, 24, 27, .05); font-size: 12px; padding: 5px 9px; color: var(--ink); }
   .leaflet-tooltip::before { display: none; }
+  .ax-map-seg { display: flex; gap: 2px; padding: 3px; background: rgba(255, 255, 255, .92); backdrop-filter: blur(8px); border-radius: 10px; box-shadow: 0 2px 10px rgba(24, 24, 27, .12), 0 0 0 1px rgba(24, 24, 27, .05); }
+  .ax-map-seg button { border: 0; background: transparent; font: 500 12px var(--font); color: var(--ink-2); padding: 5px 10px; border-radius: 7px; cursor: pointer; }
+  .ax-map-seg button.is-on { background: #18181b; color: #fff; }
   .leaflet-tooltip.ax-room { background: transparent; box-shadow: none; padding: 0; font-size: 11.5px; font-weight: 500; color: #3f3f46; }
   .leaflet-control-attribution { background: rgba(255, 255, 255, .7) !important; font-size: 10px; color: var(--ink-3); border-radius: 6px 0 0 0; }
   .leaflet-control-attribution a { color: var(--ink-3); }
@@ -428,4 +432,5 @@
 <!-- @inline sections/water.js -->
 <!-- @inline sections/assets.js -->
 <!-- @inline sections/additions.js -->
+<!-- @inline sections/additions-2.js -->
 <script>AX.start();</script>

@@ -1,14 +1,14 @@
 # Rayven Analytics
 
-A component library of 201 analytics components for Rayven interfaces, from a single KPI tile to live process mimics. They're grouped into 11 categories, and each is tagged Simple, Intermediate or Advanced.
+A component library of 204 analytics components for Rayven interfaces, from a single KPI tile to live process mimics. They're grouped into 11 categories, and each is tagged Simple, Intermediate or Advanced.
 
 **Live demo: https://jared337.github.io/Rayven-Analytics/**
 
 | Category | Components |
 |---|---|
-| Assorted Widgets | 24 |
-| Assorted Charts | 22 |
-| Time Series | 23 |
+| Assorted Widgets | 25 |
+| Assorted Charts | 23 |
+| Time Series | 24 |
 | Maps | 23 |
 | Tables | 21 |
 | Bar + Pie Charts | 20 |

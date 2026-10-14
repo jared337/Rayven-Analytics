@@ -255,6 +255,7 @@ const AX = (() => {
   /* Leaflet map inside `parent`. All basemaps are keyless; swap URLs here for a licensed provider in production. */
   const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/";
   const TILES = {
+    color: [ESRI + "World_Street_Map/MapServer/tile/{z}/{y}/{x}", "Tiles &copy; Esri", 18],
     light: [ESRI + "Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", "Tiles &copy; Esri", 16],
     dark: [ESRI + "Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", "Tiles &copy; Esri", 16],
     street: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png", "&copy; OpenStreetMap contributors", 19],
@@ -262,12 +263,12 @@ const AX = (() => {
     satellite: [ESRI + "World_Imagery/MapServer/tile/{z}/{y}/{x}", "Tiles &copy; Esri", 18]
   };
 
-  function tiles(name = "light") {
+  function tiles(name = "color") {
     const [url, attribution, maxNativeZoom] = TILES[name];
     return L.tileLayer(url, { attribution, maxNativeZoom, maxZoom: 19 });
   }
 
-  function map(parent, { height = 300, center, zoom = 4, base = "light", options = {} } = {}) {
+  function map(parent, { height = 300, center, zoom = 4, base = "color", options = {} } = {}) {
     const box = add(parent, `<div class="ax-map" style="height:${height}px"></div>`);
     const m = L.map(box, { scrollWheelZoom: false, ...options });
 
@@ -283,7 +284,24 @@ const AX = (() => {
 
     if (center) m.setView(center, zoom);
     else m.fitBounds(D.sites.map(s => [s.lat, s.lng]), { padding: [28, 28] });
-    if (base) tiles(base).addTo(m);
+    if (base) {
+      // Every standard map gets a Map / Satellite toggle (maps with their own base controls pass base: null)
+      const layers = { map: tiles(base).addTo(m), satellite: tiles("satellite") };
+      const seg = L.control({ position: "topright" });
+      seg.onAdd = () => {
+        const d = el(`<div class="ax-map-seg"><button type="button" data-l="map" class="is-on">Map</button><button type="button" data-l="satellite">Satellite</button></div>`);
+        L.DomEvent.disableClickPropagation(d);
+        d.addEventListener("click", e => {
+          const k = e.target.dataset.l;
+          if (!k) return;
+          Object.values(layers).forEach(l => m.removeLayer(l));
+          layers[k].addTo(m);
+          d.querySelectorAll("button").forEach(btn => btn.classList.toggle("is-on", btn === e.target));
+        });
+        return d;
+      };
+      seg.addTo(m);
+    }
 
     // Skip while hidden (other section showing): layers like the heatmap fail on a 0-width canvas
     new ResizeObserver(() => {

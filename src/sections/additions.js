@@ -149,9 +149,9 @@
         const r = D.rng(31), prevail = i => Math.exp(-((Math.min(Math.abs(i - 2.5), 16 - Math.abs(i - 2.5))) ** 2) / 4) + 0.08;
         const freq = dirs.map((_, i) => bands.map((_, bi) => +(prevail(i) * [2.2, 3, 2.6, 1.6, 0.8][bi] * (0.7 + r() * 0.6)).toFixed(2)));
         const hidden = new Set();
-        const ctl = AX.add(b, `<div class="ax-ctl">${AX.seg([["light", "Map"], ["satellite", "Satellite"]], "light")}<span class="ax-small" style="color:var(--ink-3)">Prevailing wind from the north-east</span></div>`);
+        const ctl = AX.add(b, `<div class="ax-ctl">${AX.seg([["color", "Map"], ["satellite", "Satellite"]], "color")}<span class="ax-small" style="color:var(--ink-3)">Prevailing wind from the north-east</span></div>`);
         const m = AX.map(b, { center: site, zoom: 14, height: 340, base: null });
-        const layers = { light: AX.tiles("light").addTo(m), satellite: AX.tiles("satellite") };
+        const layers = { color: AX.tiles("color").addTo(m), satellite: AX.tiles("satellite") };
         const svgRose = () => {
           const S = 280, cx = S / 2, cy = S / 2, maxR = 108;
           const tot = freq.map(f => f.reduce((s, v, bi) => s + (hidden.has(bi) ? 0 : v), 0)), mx = Math.max(...freq.map(f => f.reduce((s, v) => s + v, 0)));
